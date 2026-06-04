@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Market Direction Demo Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="terminal-shell" aria-labelledby="app-title">
+      <section class="top-disclosure" role="note">
+        <strong>SIMULATION ONLY</strong>
+        <span>No broker connection · No real trades · Local animation demo</span>
+      </section>
+
+      <header class="workspace-header">
+        <div>
+          <p class="eyebrow">Local presentation tool</p>
+          <h1 id="app-title">Market Direction Demo Lab</h1>
+        </div>
+        <div class="connection-pill" aria-label="Connection status">Offline sandbox</div>
+      </header>
+
+      <section class="dashboard" aria-label="Demo dashboard">
+        <aside class="instrument-panel">
+          <div class="panel-card">
+            <p class="label">Instrument</p>
+            <p class="instrument-name">DEMO / USD</p>
+            <p class="muted">Generated locally from scripted animation.</p>
+          </div>
+
+          <div class="panel-card score-card">
+            <p class="label">Demo score</p>
+            <p id="score" class="score">0</p>
+            <p class="muted">Presentation feedback, not money.</p>
+          </div>
+
+          <div class="panel-card">
+            <p class="label">Mode</p>
+            <p id="modeLabel" class="mode-label">Neutral drift</p>
+            <p id="statusText" class="muted">The chart is idling with small local movements.</p>
+          </div>
+        </aside>
+
+        <section class="chart-card" aria-label="Generated demo chart">
+          <div class="chart-toolbar">
+            <span>Generated chart</span>
+            <span class="watermark">SIMULATED</span>
+          </div>
+          <canvas id="chart" width="960" height="480" aria-label="Animated simulated price chart"></canvas>
+          <div class="chart-footer">
+            <span>Timeframe updates are intentionally paused for this demo candle.</span>
+            <span id="lastMove">Last move: none</span>
+          </div>
+        </section>
+
+        <aside class="control-panel" aria-label="Directional demo controls">
+          <button id="upButton" class="action action-up" type="button">
+            <span>Push up</span>
+            <small>Animate price rising</small>
+          </button>
+          <button id="downButton" class="action action-down" type="button">
+            <span>Push down</span>
+            <small>Animate price falling</small>
+          </button>
+          <button id="neutralButton" class="action action-neutral" type="button">
+            <span>Neutral drift</span>
+            <small>Return to idle motion</small>
+          </button>
+          <button id="resetButton" class="secondary" type="button">Reset demo</button>
+        </aside>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
