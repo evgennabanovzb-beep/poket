@@ -8,14 +8,26 @@ const upButton = document.querySelector('#upButton');
 const downButton = document.querySelector('#downButton');
 const resetButton = document.querySelector('#resetButton');
 const tradeLog = document.querySelector('#tradeLog');
+const headerBalanceEl = document.querySelector('#headerBalance');
+const todayProfitEl = document.querySelector('#todayProfit');
+const tradeCountEl = document.querySelector('#tradeCount');
+const minusStakeButton = document.querySelector('#minusStake');
+const plusStakeButton = document.querySelector('#plusStake');
+const timerRing = document.querySelector('#timerRing');
+const timerLabel = document.querySelector('#timerLabel');
+const dealMarker = document.querySelector('#dealMarker');
+const dealMarkerProfit = document.querySelector('#dealMarkerProfit');
 
 const initialBalance = 10000;
 const payoutRate = 0.82;
-const candleCount = 42;
+const candleCount = 58;
 let balance = initialBalance;
+let sessionProfit = 0;
+let tradeCount = 0;
 let price = 1.2842;
 let candles = createCandles();
 let activeAnimation = null;
+let markerTimeout = null;
 
 function createCandles() {
   const output = [];
@@ -79,9 +91,9 @@ function getScale() {
 
 function drawGrid(scale) {
   ctx.clearRect(0, 0, scale.width, scale.height);
-  ctx.fillStyle = '#09131d';
+  ctx.fillStyle = '#080d14';
   ctx.fillRect(0, 0, scale.width, scale.height);
-  ctx.strokeStyle = 'rgba(255,255,255,0.055)';
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
   ctx.lineWidth = 1;
 
   for (let x = 0; x < scale.width; x += 80) {
@@ -101,7 +113,7 @@ function drawGrid(scale) {
 
 function drawCandle(candle, x, bodyWidth, scale, isActive = false) {
   const bullish = candle.close >= candle.open;
-  const color = bullish ? '#1ed98b' : '#ff5c7a';
+  const color = bullish ? '#11c878' : '#f64f6b';
   const openY = scale.y(candle.open);
   const closeY = scale.y(candle.close);
   const highY = scale.y(candle.high);
@@ -132,7 +144,7 @@ function drawPriceLine(scale) {
   ctx.stroke();
   ctx.setLineDash([]);
 
-  ctx.fillStyle = '#64a8ff';
+  ctx.fillStyle = '#5f8dff';
   ctx.fillRect(scale.width - 104, y - 15, 96, 30);
   ctx.fillStyle = '#03111e';
   ctx.font = '700 13px Inter, sans-serif';
@@ -158,6 +170,31 @@ function drawChart() {
 function setTradingEnabled(enabled) {
   upButton.disabled = !enabled;
   downButton.disabled = !enabled;
+}
+
+function updateAccountDisplay() {
+  balanceEl.textContent = formatCurrency(balance);
+  headerBalanceEl.textContent = formatCurrency(balance);
+  todayProfitEl.textContent = formatCurrency(sessionProfit);
+  tradeCountEl.textContent = String(tradeCount);
+}
+
+function showDealMarker(profit) {
+  if (markerTimeout) {
+    clearTimeout(markerTimeout);
+  }
+
+  dealMarkerProfit.textContent = `+${formatCurrency(profit)}`;
+  dealMarker.hidden = false;
+  markerTimeout = setTimeout(() => {
+    dealMarker.hidden = true;
+  }, 2200);
+}
+
+function changeStake(delta) {
+  const current = Math.max(1, Number(stakeInput.value) || 1);
+  const next = Math.min(10000, Math.max(1, current + delta));
+  stakeInput.value = String(next);
 }
 
 function addLog(direction, stake, profit) {
@@ -212,7 +249,10 @@ function animateTrade(direction) {
     activeCandle.close = endPrice;
     const profit = stake * payoutRate;
     balance += profit;
-    balanceEl.textContent = formatCurrency(balance);
+    sessionProfit += profit;
+    tradeCount += 1;
+    updateAccountDisplay();
+    showDealMarker(profit);
     addLog(direction, stake, profit);
     activeAnimation = null;
     setTradingEnabled(true);
@@ -225,8 +265,11 @@ function resetDemo() {
     activeAnimation = null;
   }
   balance = initialBalance;
+  sessionProfit = 0;
+  tradeCount = 0;
   candles = createCandles();
-  balanceEl.textContent = formatCurrency(balance);
+  updateAccountDisplay();
+  dealMarker.hidden = true;
   tradeLog.innerHTML = '';
   setTradingEnabled(true);
   drawChart();
@@ -234,8 +277,14 @@ function resetDemo() {
 
 upButton.addEventListener('click', () => animateTrade('up'));
 downButton.addEventListener('click', () => animateTrade('down'));
+minusStakeButton.addEventListener('click', () => changeStake(-10));
+plusStakeButton.addEventListener('click', () => changeStake(10));
 resetButton.addEventListener('click', resetDemo);
+durationInput.addEventListener('change', () => {
+  timerRing.textContent = `${Math.round(Number(durationInput.value) / 1000)}s`;
+  timerLabel.textContent = 'ручная';
+});
 window.addEventListener('resize', resizeCanvas);
 
-balanceEl.textContent = formatCurrency(balance);
+updateAccountDisplay();
 resizeCanvas();

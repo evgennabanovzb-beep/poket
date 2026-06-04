@@ -3,43 +3,138 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Учебный демо-терминал</title>
+    <title>Demo Options Studio</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="watermark">DEMO • НЕ РЕАЛЬНЫЕ ТОРГИ • ОБУЧАЮЩИЙ СИМУЛЯТОР</div>
+    <div class="watermark">DEMO • СИМУЛЯЦИЯ • НЕ POCKET OPTION</div>
 
-    <main class="terminal" aria-label="Учебный демо-терминал">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Локальный режим</p>
-          <h1>Учебный демо-терминал</h1>
+    <main class="terminal" aria-label="Учебная студия бинарных опционов">
+      <header class="platform-bar">
+        <div class="brand-lockup" aria-label="Название демо-платформы">
+          <span class="brand-mark">DS</span>
+          <div>
+            <strong>Demo Options Studio</strong>
+            <small>обучающий терминал для блогера</small>
+          </div>
         </div>
-        <div class="status-pill" title="Нет подключения к брокеру или торговым серверам">
-          <span class="dot"></span>
-          Offline demo
+
+        <nav class="mode-tabs" aria-label="Режимы терминала">
+          <button class="mode-tab active" type="button">Быстрая сделка</button>
+          <button class="mode-tab" type="button">Турнир DEMO</button>
+          <button class="mode-tab" type="button">Финансы DEMO</button>
+          <button class="mode-tab" type="button">Профиль</button>
+        </nav>
+
+        <div class="top-actions">
+          <div class="status-pill" title="Нет подключения к брокеру или торговым серверам">
+            <span class="dot"></span>
+            Offline demo
+          </div>
+          <div class="header-balance">
+            <span>Демо-баланс</span>
+            <strong id="headerBalance">$10 000.00</strong>
+          </div>
         </div>
       </header>
 
-      <section class="notice" role="note">
-        Этот интерфейс не копирует Pocket Option, не подключается к брокерам и не выполняет сделки. Он предназначен только для честной записи обучающих роликов с явной маркировкой демо-среды.
+      <section class="disclosure" role="note">
+        <strong>Важно:</strong> это не Pocket Option и не копия реального сайта. Макет сделан в стиле учебного терминала бинарных опционов для честных роликов, где зрителю видно, что график, баланс и сделки являются симуляцией.
       </section>
 
       <section class="workspace">
-        <aside class="panel account-panel">
-          <h2>Счёт</h2>
-          <div class="metric">
-            <span>Фейковый баланс</span>
-            <strong id="balance">$10 000.00</strong>
+        <aside class="asset-rail panel" aria-label="Список демо-активов">
+          <div class="section-title compact">
+            <h2>Активы</h2>
+            <span>DEMO</span>
           </div>
-          <div class="metric">
-            <span>Учебная выплата</span>
-            <strong>+82%</strong>
+          <button class="asset active" type="button">
+            <span class="asset-icon">₿</span>
+            <span>
+              <strong>Demo OTC</strong>
+              <small>82% payout</small>
+            </span>
+          </button>
+          <button class="asset" type="button">
+            <span class="asset-icon">€</span>
+            <span>
+              <strong>EUR/USD demo</strong>
+              <small>76% payout</small>
+            </span>
+          </button>
+          <button class="asset" type="button">
+            <span class="asset-icon">¥</span>
+            <span>
+              <strong>USD/JPY demo</strong>
+              <small>71% payout</small>
+            </span>
+          </button>
+          <button class="asset" type="button">
+            <span class="asset-icon">Ξ</span>
+            <span>
+              <strong>Crypto demo</strong>
+              <small>69% payout</small>
+            </span>
+          </button>
+        </aside>
+
+        <section class="chart-card" aria-label="Локально сгенерированный свечной график">
+          <div class="chart-toolbar">
+            <div class="instrument-card">
+              <span class="instrument-icon">⌁</span>
+              <div>
+                <p class="pair">DEMO OTC</p>
+                <p class="price" id="price">1.28420</p>
+              </div>
+            </div>
+            <div class="timeframe-strip" aria-label="Учебные таймфреймы">
+              <button type="button">5s</button>
+              <button class="active" type="button">15s</button>
+              <button type="button">30s</button>
+              <button type="button">1m</button>
+            </div>
+            <div class="chart-badges">
+              <span>Свечи локально</span>
+              <span>Закрытие вручную</span>
+            </div>
           </div>
+
+          <div class="chart-shell">
+            <canvas id="chart" width="1120" height="620"></canvas>
+            <div class="deal-marker" id="dealMarker" hidden>
+              <strong>DEMO WIN</strong>
+              <span id="dealMarkerProfit">+$82.00</span>
+            </div>
+            <div class="chart-overlay">
+              <span>DEMO</span>
+              <small>локальная симуляция, не брокер</small>
+            </div>
+          </div>
+        </section>
+
+        <aside class="trade-panel panel" aria-label="Панель учебной сделки">
+          <div class="section-title compact">
+            <h2>Сделка</h2>
+            <span>односторонняя демо-анимация</span>
+          </div>
+
+          <div class="timer-card">
+            <div class="timer-ring" id="timerRing">15s</div>
+            <div>
+              <span>Экспирация</span>
+              <strong id="timerLabel">ручная</strong>
+            </div>
+          </div>
+
           <label class="input-group">
-            <span>Сумма демо-сделки</span>
-            <input id="stake" type="number" min="1" max="10000" step="1" value="100" />
+            <span>Сумма</span>
+            <div class="stepper">
+              <button id="minusStake" type="button">−</button>
+              <input id="stake" type="number" min="1" max="10000" step="1" value="100" />
+              <button id="plusStake" type="button">+</button>
+            </div>
           </label>
+
           <label class="input-group">
             <span>Длительность анимации</span>
             <select id="duration">
@@ -48,48 +143,54 @@
               <option value="5000">5 секунд</option>
             </select>
           </label>
-        </aside>
 
-        <section class="chart-card" aria-label="Локально сгенерированный свечной график">
-          <div class="chart-header">
-            <div>
-              <p class="pair">DEMO/USD</p>
-              <p class="price" id="price">1.28420</p>
-            </div>
-            <div class="chart-badges">
-              <span>Локальная анимация</span>
-              <span>Свеча зафиксирована</span>
-            </div>
+          <div class="payout-card">
+            <span>Выплата демо</span>
+            <strong>+82%</strong>
+            <small>начисляется только в симуляторе</small>
           </div>
-          <div class="chart-shell">
-            <canvas id="chart" width="960" height="520"></canvas>
-            <div class="chart-overlay">
-              <span>DEMO</span>
-              <small>Свечи и сделки сгенерированы локально</small>
-            </div>
-          </div>
-        </section>
 
-        <aside class="panel trade-panel">
-          <h2>Управление</h2>
           <button id="upButton" class="trade-button up" type="button">
             <span>ВВЕРХ</span>
-            <small>анимация роста</small>
+            <small>нарисовать рост</small>
           </button>
           <button id="downButton" class="trade-button down" type="button">
             <span>ВНИЗ</span>
-            <small>анимация падения</small>
+            <small>нарисовать падение</small>
           </button>
           <button id="resetButton" class="ghost-button" type="button">Сбросить демо</button>
         </aside>
       </section>
 
-      <section class="panel log-panel">
-        <div class="section-title">
-          <h2>Журнал демо-сделок</h2>
-          <span>Все записи являются симуляцией</span>
-        </div>
-        <ol id="tradeLog" class="trade-log" aria-live="polite"></ol>
+      <section class="bottom-grid">
+        <section class="panel account-panel">
+          <div class="section-title compact">
+            <h2>Счёт</h2>
+            <span>фейковые значения</span>
+          </div>
+          <div class="metric-row">
+            <div class="metric">
+              <span>Баланс</span>
+              <strong id="balance">$10 000.00</strong>
+            </div>
+            <div class="metric">
+              <span>Сегодня</span>
+              <strong id="todayProfit">$0.00</strong>
+            </div>
+            <div class="metric">
+              <span>Сделок</span>
+              <strong id="tradeCount">0</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel log-panel">
+          <div class="section-title">
+            <h2>История демо-сделок</h2>
+            <span>Все записи являются симуляцией</span>
+          </div>
+          <ol id="tradeLog" class="trade-log" aria-live="polite"></ol>
+        </section>
       </section>
     </main>
 
