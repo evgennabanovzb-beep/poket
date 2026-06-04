@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Учебный демо-терминал</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="watermark">DEMO • НЕ РЕАЛЬНЫЕ ТОРГИ • ОБУЧАЮЩИЙ СИМУЛЯТОР</div>
+
+    <main class="terminal" aria-label="Учебный демо-терминал">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Локальный режим</p>
+          <h1>Учебный демо-терминал</h1>
+        </div>
+        <div class="status-pill" title="Нет подключения к брокеру или торговым серверам">
+          <span class="dot"></span>
+          Offline demo
+        </div>
+      </header>
+
+      <section class="notice" role="note">
+        Этот интерфейс не копирует Pocket Option, не подключается к брокерам и не выполняет сделки. Он предназначен только для честной записи обучающих роликов с явной маркировкой демо-среды.
+      </section>
+
+      <section class="workspace">
+        <aside class="panel account-panel">
+          <h2>Счёт</h2>
+          <div class="metric">
+            <span>Фейковый баланс</span>
+            <strong id="balance">$10 000.00</strong>
+          </div>
+          <div class="metric">
+            <span>Учебная выплата</span>
+            <strong>+82%</strong>
+          </div>
+          <label class="input-group">
+            <span>Сумма демо-сделки</span>
+            <input id="stake" type="number" min="1" max="10000" step="1" value="100" />
+          </label>
+          <label class="input-group">
+            <span>Длительность анимации</span>
+            <select id="duration">
+              <option value="1800">1.8 секунды</option>
+              <option value="3000" selected>3 секунды</option>
+              <option value="5000">5 секунд</option>
+            </select>
+          </label>
+        </aside>
+
+        <section class="chart-card" aria-label="Локально сгенерированный свечной график">
+          <div class="chart-header">
+            <div>
+              <p class="pair">DEMO/USD</p>
+              <p class="price" id="price">1.28420</p>
+            </div>
+            <div class="chart-badges">
+              <span>Локальная анимация</span>
+              <span>Свеча зафиксирована</span>
+            </div>
+          </div>
+          <div class="chart-shell">
+            <canvas id="chart" width="960" height="520"></canvas>
+            <div class="chart-overlay">
+              <span>DEMO</span>
+              <small>Свечи и сделки сгенерированы локально</small>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel trade-panel">
+          <h2>Управление</h2>
+          <button id="upButton" class="trade-button up" type="button">
+            <span>ВВЕРХ</span>
+            <small>анимация роста</small>
+          </button>
+          <button id="downButton" class="trade-button down" type="button">
+            <span>ВНИЗ</span>
+            <small>анимация падения</small>
+          </button>
+          <button id="resetButton" class="ghost-button" type="button">Сбросить демо</button>
+        </aside>
+      </section>
+
+      <section class="panel log-panel">
+        <div class="section-title">
+          <h2>Журнал демо-сделок</h2>
+          <span>Все записи являются симуляцией</span>
+        </div>
+        <ol id="tradeLog" class="trade-log" aria-live="polite"></ol>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
